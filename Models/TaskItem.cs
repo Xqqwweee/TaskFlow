@@ -8,6 +8,7 @@
         public DateTime? Deadline { get; set; }
         public TaskItemStatus Status { get; set; } = TaskItemStatus.Open;
         public int ProjectId { get; set; }
+        public Project Project { get; set; } = null!;
 
     }
 }
