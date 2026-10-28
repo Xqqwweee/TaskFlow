@@ -36,7 +36,7 @@ namespace TaskFlow.Controllers
             var project = new Project { Name = dto.Name };
             _db.Projects.Add(project);
             await _db.SaveChangesAsync();
-            return Created("", ResponseProjectDto.ToDto(project));
+            return CreatedAtAction(nameof(GetById), new {id = project.Id}, ResponseProjectDto.ToDto(project));
         }
     }
 }
