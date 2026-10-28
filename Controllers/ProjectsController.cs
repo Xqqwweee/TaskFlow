@@ -23,6 +23,13 @@ namespace TaskFlow.Controllers
                 .ToListAsync();
             return Ok(projects);
         }
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ResponseProjectDto>> GetById(int id)
+        {
+            var project = await _db.Projects.FindAsync(id);
+            if (project is null) return NotFound();
+            return Ok(ResponseProjectDto.ToDto(project));
+        }
         [HttpPost]
         public async Task<ActionResult<ResponseProjectDto>> Create(CreateProjectDto dto)
         {
