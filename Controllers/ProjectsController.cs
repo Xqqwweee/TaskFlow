@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using TaskFlow.Data;
 using TaskFlow.Models;
+using TaskFlow.Dtos;
 
 namespace TaskFlow.Controllers
 {
@@ -15,10 +16,20 @@ namespace TaskFlow.Controllers
             _db = db;
         }
         [HttpGet]
-        public async Task<ActionResult<List<Project>>> GetAll()
+        public async Task<ActionResult<List<ResponseProjectDto>>> GetAll()
         {
-            var projects = await _db.Projects.ToListAsync();
+            List<ResponseProjectDto> projects = await _db.Projects
+                .Select(x => ResponseProjectDto.ToDto(x))
+                .ToListAsync();
             return Ok(projects);
+        }
+        [HttpPost]
+        public async Task<ActionResult<ResponseProjectDto>> Create(CreateProjectDto dto)
+        {
+            var project = new Project { Name = dto.Name };
+            _db.Projects.Add(project);
+            await _db.SaveChangesAsync();
+            return Created("", ResponseProjectDto.ToDto(project));
         }
     }
 }
