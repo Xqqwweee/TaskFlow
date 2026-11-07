@@ -1,3 +1,3 @@
 ﻿namespace TaskFlow.Dtos;
 
-internal record CreateProjectDto(string name);
+public record CreateProjectDto(string Name);

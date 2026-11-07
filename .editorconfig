@@ -1,8 +1,5 @@
 ﻿[*.cs]
-dotnet_diagnostic.SA1200.severity = none
-dotnet_diagnostic.SA1633.severity = none
-dotnet_diagnostic.SA1600.severity = none
-dotnet_diagnostic.SA1009.severity = none
-
-# SA1309: Field names should not begin with underscore
-dotnet_diagnostic.SA1309.severity = none
+# Фирменное правило Microsoft для пустых строк между методами
+csharp_space_between_method_declaration_and_open_brace = true
+csharp_style_allow_blank_lines_between_consecutive_braces = false
+csharp_blank_lines_between_members = 1
