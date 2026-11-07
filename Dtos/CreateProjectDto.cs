@@ -1,11 +1,3 @@
-﻿using TaskFlow.Models;
+﻿namespace TaskFlow.Dtos;
 
-namespace TaskFlow.Dtos
-{
-    public class CreateProjectDto
-    {
-        public string Name { get; set; } = string.Empty;
-    }
-}
-
-
+internal record CreateProjectDto(string name);

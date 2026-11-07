@@ -1,5 +1,5 @@
-using Scalar.AspNetCore;
 using Microsoft.EntityFrameworkCore;
+using Scalar.AspNetCore;
 using TaskFlow.Data;
 
 var builder = WebApplication.CreateBuilder(args);

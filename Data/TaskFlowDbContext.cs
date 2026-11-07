@@ -1,15 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TaskFlow.Models;
 
-namespace TaskFlow.Data
+namespace TaskFlow.Data;
+
+public class TaskFlowDbContext(DbContextOptions<TaskFlowDbContext> options) : DbContext(options)
 {
-    public class TaskFlowDbContext : DbContext
-    {
-        public TaskFlowDbContext(DbContextOptions<TaskFlowDbContext> options)
-            : base(options)
-        {
-        }
-        public DbSet<Project> Projects { get; set; }
-        public DbSet<TaskItem> Tasks { get; set; }
-    }
+    public DbSet<Project> Projects { get; set; }
+    public DbSet<TaskItem> Tasks { get; set; }
 }

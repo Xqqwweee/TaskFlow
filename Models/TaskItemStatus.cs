@@ -1,9 +1,8 @@
-﻿namespace TaskFlow.Models
+﻿namespace TaskFlow.Models;
+
+public enum TaskItemStatus
 {
-    public enum TaskItemStatus
-    {
-        Open,
-        InProgress,
-        Done
-    }
+    Open,
+    InProgress,
+    Done
 }
