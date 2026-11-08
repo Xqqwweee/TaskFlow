@@ -50,17 +50,19 @@ public class ProjectService : IProjectService
         return createdProject.ToDto();
     }
 
-    public async Task UpdateAsync(int id, UpdateProjectDto updateProjectDto)
+    public async Task<bool> UpdateAsync(int id, UpdateProjectDto updateProjectDto)
     {
         var project = await _projectRepository.GetByIdAsync(id);
         if (project is null)
         {
             _logger.LogWarning("Project with Id: {id} was not found.", id);
-            return;
+            return false;
         }
 
         project.Name = updateProjectDto.Name;
         await _projectRepository.UpdateAsync(project);
+
+        return true;
     }
 
     public async Task<bool> DeleteAsync(int id)
