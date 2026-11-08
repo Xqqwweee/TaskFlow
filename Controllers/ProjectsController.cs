@@ -1,50 +1,67 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using TaskFlow.Data;
 using TaskFlow.Dtos;
-using TaskFlow.Extensions;
-using TaskFlow.Models;
+using TaskFlow.Interfaces.Services;
 
-namespace TaskFlow.Controllers
+namespace TaskFlow.Controllers;
+
+[ApiController]
+[Route("api/[controller]")]
+public class ProjectsController : ControllerBase
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    internal class ProjectsController(TaskFlowDbContext context) : ControllerBase
+    private readonly IProjectService _projectService;
+
+    public ProjectsController(IProjectService projectService)
     {
-        private readonly TaskFlowDbContext _context = context;
+        _projectService = projectService;
+    }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
+    [HttpGet]
+    public async Task<ActionResult<List<ResponseProjectDto>>> GetAll()
+    {
+        return await _projectService.GetAllAsync();
+    }
+
+    [HttpGet("{id}", Name = "GetProjectByIdRoute")]
+    public async Task<ActionResult<ResponseProjectDto>> GetById(int id)
+    {
+        var project = await _projectService.GetByIdAsync(id);
+        if (project is null)
         {
-            List<ResponseProjectDto> projects = await _context.Projects
-                .Select(p => new ResponseProjectDto
-                {
-                    Id = p.Id,
-                    Name = p.Name,
-                })
-                .ToListAsync();
-            return Ok(projects);
+            return NotFound();
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<ResponseProjectDto>> GetById(int id)
-        {
-            var project = await _context.Projects.FindAsync(id);
-            if (project is null)
-            {
-                return NotFound();
-            }
+        return project;
+    }
 
-            return Ok(ResponseProjectDto.ToDto(project));
+    [HttpPost]
+    public async Task<ActionResult<ResponseProjectDto>> Create([FromBody] CreateProjectDto dto)
+    {
+        var project = await _projectService.CreateAsync(dto);
+
+        return CreatedAtRoute("GetProjectByIdRoute", new { id = project.Id }, project);
+    }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Update(int id, [FromBody] UpdateProjectDto dto)
+    {
+        var isUpdated = await _projectService.UpdateAsync(id, dto);
+        if (!isUpdated)
+        {
+            return NotFound();
         }
 
-        [HttpPost]
-        public async Task<ActionResult<ResponseProjectDto>> Create(CreateProjectDto dto)
+        return NoContent();
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var isDeleted = await _projectService.DeleteAsync(id);
+        if (!isDeleted)
         {
-            var project = new Project { Name = dto.name };
-            _context.Projects.Add(project);
-            await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetById), new { id = project.Id }, ResponseProjectDto.ToDto(project));
+            return NotFound();
         }
+
+        return NoContent();
     }
 }
