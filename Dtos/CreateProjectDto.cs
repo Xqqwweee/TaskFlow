@@ -1,3 +1,5 @@
-﻿namespace TaskFlow.Dtos;
+﻿using System.ComponentModel.DataAnnotations;
 
-public record CreateProjectDto(string Name);
+namespace TaskFlow.Dtos;
+
+public record CreateProjectDto([Required] string Name);
