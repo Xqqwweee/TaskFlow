@@ -5,7 +5,7 @@ namespace TaskFlow.Extensions;
 
 public static class TaskExtensions
 {
-    public static ResponseTaskDto ToDto(TaskItem taskItem)
+    public static ResponseTaskDto ToDto(this TaskItem taskItem)
     {
         return new ResponseTaskDto
         {
