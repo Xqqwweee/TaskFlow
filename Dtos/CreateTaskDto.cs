@@ -2,9 +2,9 @@
 
 namespace TaskFlow.Dtos;
 
-public record CreateTaskDto([Required]
+public record CreateTaskDto([Required(ErrorMessage = "Title is required.")]
     string Title,
-    string Description,
+    string? Description,
     DateTime? Deadline,
     int ProjectId
     );

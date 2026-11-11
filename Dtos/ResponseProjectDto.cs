@@ -10,7 +10,7 @@ public class ResponseProjectDto
 
     public static ResponseProjectDto ToDto(Project project)
     {
-        ResponseProjectDto newDto = new()
+        ResponseProjectDto newDto = new ()
         {
             Name = project.Name,
             Id = project.Id,
